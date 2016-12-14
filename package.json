@@ -12,7 +12,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js --exec babel-node --presets es2015,stage-2"
+    "start-dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
