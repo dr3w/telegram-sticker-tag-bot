@@ -2,6 +2,7 @@
 
 const TeleBot = require('telebot')
 const db = require('./db')
+const locale = require('./locale')
 const cfg = require('../config')
 
 const bot = new TeleBot({
@@ -17,7 +18,7 @@ bot.use(require('./modules/ask.js'))
 bot.on('/start', msg => {
     const userId = msg.from.id
 
-    return bot.sendMessage(userId, 'Send me a sticker to tag')
+    return bot.sendMessage(userId, locale.START_INFO)
 })
 
 bot.on('sticker', (msg) => {
@@ -25,19 +26,18 @@ bot.on('sticker', (msg) => {
     const stickerId = msg.sticker && msg.sticker.file_id
 
     if (!stickerId) {
-        return bot.sendMessage(userId, 'Hm.. no... that\'s not right...')
+        return bot.sendMessage(userId, locale.NO_STICKER)
     }
 
     return db.getStickerTags(userId, stickerId)
         .then(tags => {
             const hasTags = tags && tags.length;
 
-            let newMessage = hasTags ?
-            'You already have following tags:\n' + tags.join(' ') + '\n\n' : ''
+            let newMessage = hasTags ? locale.CURRENT_TAGS.replace('{{tags}}', tags.join(' ')) : ''
 
-            newMessage += 'Type in new tags for this sticker(space separated, emoji would also work 😜)\n\n'
-            newMessage += hasTags ? '/delete - to delete tags for this sticker\n' : ''
-            newMessage += '/cancel - to abort'
+            newMessage += locale.TYPE_NEW_TAGS_INFO
+            newMessage += hasTags ? locale.DELETE_INFO : ''
+            newMessage += locale.CANCEL_INFO
 
             return bot.sendMessage(userId, newMessage, {ask: 'tag', stickerId})
         })
@@ -51,15 +51,15 @@ bot.on('ask.tag', msg => {
     const tags = text ? text.split(' ') : []
 
     if (text === '/cancel' || !tags || !tags.length) {
-        return sendMessage('⛔️ Why nothing? Ok then... ¯\\_(ツ)_/¯')
+        return sendMessage(locale.CANCELED)
     }
     else if (text === '/delete') {
         return db.deleteSticker(userId, stickerId)
-            .then(sendMessage.bind(null, '💥 Ok, deleted'))
+            .then(sendMessage.bind(null, locale.DELETED))
     }
     else {
         return db.saveTags(userId, stickerId, tags)
-            .then(sendMessage.bind(null, '✅ Awesome! Saved!'))
+            .then(sendMessage.bind(null, locale.SAVED))
     }
 
     function sendMessage(message) {
