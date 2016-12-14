@@ -9,7 +9,7 @@ const bot = new TeleBot({
     token: cfg.token,
     webhook: {
         url: cfg.webhook,
-        port: cfg.port
+        port: process.env.PORT || cfg.port
     }
 })
 
