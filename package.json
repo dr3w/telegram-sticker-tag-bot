@@ -1,0 +1,32 @@
+{
+  "name": "telegram-sticker-tag-bot",
+  "version": "0.0.1",
+  "description": "Telegram Bot that enables you to tag and then quickly search through your selected stickers",
+  "main": "server.js",
+  "dependencies": {
+    "firebase": "^3.6.4",
+    "telebot": "^1.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js --exec babel-node --presets es2015,stage-2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dr3w/telegram-sticker-tag-bot.git"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "stickers"
+  ],
+  "author": "Andrew Kochmar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dr3w/telegram-sticker-tag-bot/issues"
+  },
+  "homepage": "https://github.com/dr3w/telegram-sticker-tag-bot#readme"
+}
