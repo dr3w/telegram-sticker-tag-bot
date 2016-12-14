@@ -22,8 +22,13 @@ bot.on('/start', msg => {
 })
 
 bot.on('sticker', (msg) => {
+    if (msg.chat && msg.chat.type !== 'private') {
+        return;
+    }
+
     const userId = msg.from.id
     const stickerId = msg.sticker && msg.sticker.file_id
+    const stickerEmoji = msg.sticker && msg.sticker.emoji
 
     if (!stickerId) {
         return bot.sendMessage(userId, locale.NO_STICKER)
@@ -33,9 +38,9 @@ bot.on('sticker', (msg) => {
         .then(tags => {
             const hasTags = tags && tags.length;
 
-            let newMessage = hasTags ? locale.CURRENT_TAGS.replace('{{tags}}', tags.join(' ')) : ''
+            let newMessage = hasTags ? locale.CURRENT_TAGS_INFO.replace('{{tags}}', tags.join(' ')) : ''
 
-            newMessage += locale.TYPE_NEW_TAGS_INFO
+            newMessage += locale.TYPE_NEW_TAGS_INFO.replace('{{emoji}}', stickerEmoji)
             newMessage += hasTags ? locale.DELETE_INFO : ''
             newMessage += locale.CANCEL_INFO
 
@@ -47,8 +52,12 @@ bot.on('ask.tag', msg => {
     const userId = msg.from.id
     const stickerId = msg.opt.stickerId
 
-    const text = msg.text && msg.text.toLocaleLowerCase().replace(/\s+/g, ' ').trim() || null
-    const tags = text ? text.split(' ') : []
+    const text = msg.text &&
+        msg.text.toLocaleLowerCase()
+            .replace(/\s+/g, ' ')
+            .trim() || null
+
+    const tags = text && text.indexOf('/') !== 0 ? text.split(' ') : []
 
     if (text === '/cancel' || !tags || !tags.length) {
         return sendMessage(locale.CANCELED)
