@@ -85,7 +85,10 @@ bot.on('inlineQuery', msg => {
         .then(sendStickers)
 
     function sendStickers(stickerIds) {
-        const answers = bot.answerList(msg.id, {cacheTime: 60})
+        const answers = bot.answerList(msg.id, {
+            cacheTime: 60,
+            personal: true
+        })
 
         stickerIds && stickerIds.length && stickerIds.forEach(id => {
             answers.addSticker({
