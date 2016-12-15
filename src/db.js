@@ -20,9 +20,9 @@ function getStickersByTags(userId, filterTags) {
         .catch(onError)
 
     function getData() {
-        return firebase.database().ref(userId).once('value')
-            .orderByKey()
+        return firebase.database().ref(userId)
             .limitToFirst(30)
+            .once('value')
     }
 
     function onSuccess(snapshot) {
