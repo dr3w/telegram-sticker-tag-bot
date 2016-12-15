@@ -81,10 +81,6 @@ bot.on('inlineQuery', msg => {
     let query = msg.query
     let filterTags = query && query.split(' ') || [];
 
-    if (!filterTags.length) {
-        return;
-    }
-
     return db.getStickersByTags(userId, filterTags)
         .then(sendStickers)
 

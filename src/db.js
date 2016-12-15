@@ -21,6 +21,8 @@ function getStickersByTags(userId, filterTags) {
 
     function getData() {
         return firebase.database().ref(userId).once('value')
+            .orderByKey()
+            .limitToFirst(30)
     }
 
     function onSuccess(snapshot) {
@@ -31,12 +33,20 @@ function getStickersByTags(userId, filterTags) {
         data && Object.keys(data).forEach(key => {
             let tags = data[key]
 
-            if (filterTags.every(val => ~tags.indexOf(val.toLocaleLowerCase()))) {
+            if (isEmptyTagQuery(filterTags) || isTagContained(filterTags, tags)) {
                 stickerIds.push(key)
             }
         })
 
         return Promise.resolve(stickerIds);
+    }
+
+    function isEmptyTagQuery(filterTags) {
+        return filterTags.length === 1 && filterTags[0] === ''
+    }
+
+    function isTagContained(filterTags, tags) {
+        return filterTags.every(val => ~tags.indexOf(val.toLocaleLowerCase()));
     }
 }
 
