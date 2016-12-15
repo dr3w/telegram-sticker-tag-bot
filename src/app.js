@@ -23,7 +23,7 @@ bot.on('/start', msg => {
 
 bot.on('sticker', (msg) => {
     if (msg.chat && msg.chat.type !== 'private') {
-        return;
+        return
     }
 
     const userId = msg.from.id
@@ -36,7 +36,7 @@ bot.on('sticker', (msg) => {
 
     return db.getStickerTags(userId, stickerId)
         .then(tags => {
-            const hasTags = tags && tags.length;
+            const hasTags = tags && tags.length
 
             let newMessage = hasTags ? locale.CURRENT_TAGS_INFO.replace('{{tags}}', tags.join(' ')) : ''
 
@@ -72,14 +72,14 @@ bot.on('ask.tag', msg => {
     }
 
     function sendMessage(message) {
-        return bot.sendMessage(userId, message);
+        return bot.sendMessage(userId, message)
     }
 })
 
 bot.on('inlineQuery', msg => {
-    let userId = msg.from.id;
+    let userId = msg.from.id
     let query = msg.query
-    let filterTags = query && query.split(' ') || [];
+    let filterTags = query && query.split(' ') || []
 
     return db.getStickersByTags(userId, filterTags)
         .then(sendStickers)

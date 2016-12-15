@@ -17,7 +17,7 @@ function getStickersByTags(userId, filterTags) {
     return firebaseSignIn()
         .then(getData)
         .then(onSuccess)
-        .catch(onError);
+        .catch(onError)
 
     function getData() {
         return firebase.database().ref(userId).once('value')
@@ -28,7 +28,7 @@ function getStickersByTags(userId, filterTags) {
     function onSuccess(snapshot) {
         const data = snapshot.val()
 
-        let stickerIds = [];
+        let stickerIds = []
 
         data && Object.keys(data).forEach(key => {
             let tags = data[key]
@@ -38,7 +38,7 @@ function getStickersByTags(userId, filterTags) {
             }
         })
 
-        return Promise.resolve(stickerIds);
+        return Promise.resolve(stickerIds)
     }
 
     function isEmptyTagQuery(filterTags) {
@@ -46,7 +46,7 @@ function getStickersByTags(userId, filterTags) {
     }
 
     function isTagContained(filterTags, tags) {
-        return filterTags.every(val => ~tags.indexOf(val.toLocaleLowerCase()));
+        return filterTags.every(val => ~tags.indexOf(val.toLocaleLowerCase()))
     }
 }
 
@@ -54,14 +54,14 @@ function getUserStickers(userId) {
     return firebaseSignIn()
         .then(getData)
         .then(onSuccess)
-        .catch(onError);
+        .catch(onError)
 
     function getData() {
         return firebase.database().ref(userId).once('value')
     }
 
     function onSuccess(snapshot) {
-        return Promise.resolve(snapshot.val());
+        return Promise.resolve(snapshot.val())
     }
 }
 
@@ -69,14 +69,14 @@ function getStickerTags(userId, stickerId) {
     return firebaseSignIn()
         .then(getData)
         .then(onSuccess)
-        .catch(onError);
+        .catch(onError)
 
     function getData() {
         return firebase.database().ref([userId, stickerId].join('/')).once('value')
     }
 
     function onSuccess(snapshot) {
-        return Promise.resolve(snapshot.val());
+        return Promise.resolve(snapshot.val())
     }
 }
 
@@ -84,7 +84,7 @@ function saveTags(userId, stickerId, tags) {
     return firebaseSignIn()
         .then(saveData)
         .then(onSuccess)
-        .catch(onError);
+        .catch(onError)
 
     function saveData() {
         return firebase.database().ref([userId, stickerId].join('/')).set(tags)
@@ -97,7 +97,7 @@ function deleteSticker(userId, stickerId) {
     return firebaseSignIn()
         .then(deleteData)
         .then(onSuccess)
-        .catch(onError);
+        .catch(onError)
 
     function deleteData() {
         return firebase.database().ref([userId, stickerId].join('/')).remove()
@@ -111,5 +111,5 @@ function firebaseSignIn() {
 }
 
 function onError(err) {
-    console.error('Error', err);
+    console.error('Error', err)
 }
