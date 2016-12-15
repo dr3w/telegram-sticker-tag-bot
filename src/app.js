@@ -86,7 +86,7 @@ bot.on('inlineQuery', msg => {
 
     function sendStickers(stickerIds) {
         const answers = bot.answerList(msg.id, {
-            cacheTime: 60,
+            cacheTime: 30,
             personal: true
         })
 

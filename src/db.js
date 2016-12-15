@@ -36,6 +36,8 @@ function getStickersByTags(userId, filterTags) {
             }
         })
 
+        stickerIds = stickerIds.slice(0, 30);
+        
         return Promise.resolve(stickerIds)
     }
 
