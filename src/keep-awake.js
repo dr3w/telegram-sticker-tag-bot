@@ -1,4 +1,4 @@
-const http = require('http')
+const https = require('https')
 const cfg = require('../config')
 
 module.exports = function () {
@@ -9,6 +9,6 @@ module.exports = function () {
     setInterval(function () {
         console.log('poll:', cfg.webhook);
 
-        http.get(cfg.webhook);
+        https.get(cfg.webhook);
     }, 300000); // every 5 minutes (300000)
 }
