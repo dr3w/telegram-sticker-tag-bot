@@ -5,7 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "firebase": "^3.6.4",
-    "telebot": "^1.0.6"
+    "telebot": "git+https://github.com/dr3w/telebot.git#master"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
